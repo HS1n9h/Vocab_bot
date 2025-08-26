@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Vocabulary Bot - Configuration</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group input.error, .form-group select.error {
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .form-group input.success, .form-group select.success {
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        .form-group input.validating, .form-group select.validating {
+            border-color: #ffc107;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        }
+
+        .credential-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+
+        .credential-status.validating {
+            color: #ffc107;
+        }
+
+        .credential-status.valid {
+            color: #28a745;
+        }
+
+        .credential-status.invalid {
+            color: #e74c3c;
+        }
+
+        .credential-status i {
+            font-size: 0.8rem;
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+        }
+
+        .status-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .status-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .status-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-value.success {
+            color: #28a745;
+        }
+
+        .status-value.error {
+            color: #e74c3c;
+        }
+
+        .status-value.warning {
+            color: #ffc107;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .password-input-container {
+            position: relative;
+        }
+
+        .password-input-container input {
+            padding-right: 40px; /* Space for toggle button */
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            color: #666;
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .password-toggle:hover {
+            color: #333;
+        }
+
+        /* Dark theme password toggle */
+        body.dark-theme .password-toggle {
+            color: #a0a0a0;
+        }
+
+        body.dark-theme .password-toggle:hover {
+            color: #e0e0e0;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .btn-theme {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-theme:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Dark Theme Styles */
+        body.dark-theme {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-theme .container {
+            background: #1e1e2e;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        body.dark-theme .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-theme .content {
+            background: #1e1e2e;
+        }
+
+        body.dark-theme .form-section h2 {
+            color: #e0e0e0;
+            border-bottom-color: #667eea;
+        }
+
+        body.dark-theme .form-group label {
+            color: #d0d0d0;
+        }
+
+        body.dark-theme .form-group input,
+        body.dark-theme .form-group select {
+            background: #2a2a3e;
+            border-color: #3a3a4e;
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .form-group input:focus,
+        body.dark-theme .form-group select:focus {
+            border-color: #667eea;
+            background: #2a2a3e;
+        }
+
+        body.dark-theme .help-text {
+            color: #a0a0a0;
+        }
+
+        body.dark-theme .status-section {
+            background: #2a2a3e;
+            border-left-color: #667eea;
+        }
+
+        body.dark-theme .status-card {
+            background: #1e1e2e;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        body.dark-theme .status-card h4 {
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .status-label {
+            color: #c0c0c0;
+        }
+
+        body.dark-theme .status-value {
+            color: #e0e0e0;
+        }
+
+        body.dark-theme .footer {
+            background: #2a2a3e;
+            color: #a0a0a0;
+            border-top-color: #3a3a4e;
+        }
+
+        body.dark-theme .alert-success {
+            background: #1e3a1e;
+            color: #a8e6a8;
+            border-color: #2d5a2d;
+        }
+
+        body.dark-theme .alert-error {
+            background: #3a1e1e;
+            color: #e6a8a8;
+            border-color: #5a2d2d;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-graduation-cap"></i> Daily Vocabulary Bot</h1>
+            <p>Configure your automated vocabulary learning assistant</p>
+            
+            <!-- Theme Toggle Button -->
+            <div class="theme-toggle">
+                <button id="themeToggle" class="btn btn-theme" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i><span> Dark Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Alert Messages -->
+            <div id="alert" class="alert"></div>
+
+            <!-- Configuration Form -->
+            <form id="configForm">
+                <div class="form-section">
+                    <h2><i class="fas fa-cog"></i> Email Configuration</h2>
+                    <div class="form-grid">
+                        <div class="form-group required">
+                            <label for="RECIPIENT_EMAIL">Recipient Email</label>
+                            <input type="email" id="RECIPIENT_EMAIL" name="RECIPIENT_EMAIL" 
+                                   placeholder="your.email@gmail.com" required>
+                            <div class="help-text">Where you want to receive vocabulary words</div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="GMAIL_USER">Gmail Account</label>
+                            <input type="email" id="GMAIL_USER" name="GMAIL_USER" 
+                                   placeholder="your.email@gmail.com" required>
+                            <div class="help-text">Gmail account for sending emails</div>
+                            <div class="credential-status" id="gmailUserStatus"></div>
+                        </div>
+                        
+                        <div class="form-group required">
+                            <label for="GMAIL_APP_PASSWORD">Gmail App Password</label>
+                            <div class="password-input-container">
+                                <input type="password" id="GMAIL_APP_PASSWORD" name="GMAIL_APP_PASSWORD" 
+                                       placeholder="16-character app password" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword()">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="help-text">Generate this in Google Account → Security → App passwords</div>
+                            <div class="credential-status" id="gmailPasswordStatus"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-robot"></i> Bot Settings</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="WORDS_PER_DAY">Words Per Day</label>
+                            <select id="WORDS_PER_DAY" name="WORDS_PER_DAY">
+                                <option value="1">1 word</option>
+                                <option value="2" selected>2 words</option>
+                                <option value="3">3 words</option>
+                                <option value="4">4 words</option>
+                                <option value="5">5 words</option>
+                            </select>
+                            <div class="help-text">Number of vocabulary words to send daily</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="SCHEDULE_TIME">Schedule Time</label>
+                            <input type="time" id="SCHEDULE_TIME" name="SCHEDULE_TIME" 
+                                   value="09:00" required>
+                            <div class="help-text">Daily execution time (24-hour format)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="BOT_NAME">Bot Name</label>
+                            <input type="text" id="BOT_NAME" name="BOT_NAME" 
+                                   value="Daily Vocabulary Bot">
+                            <div class="help-text">Name displayed in email sender field</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="EMAIL_SUBJECT_PREFIX">Email Subject Prefix</label>
+                            <input type="text" id="EMAIL_SUBJECT_PREFIX" name="EMAIL_SUBJECT_PREFIX" 
+                                   value="📚" maxlength="5">
+                            <div class="help-text">Prefix for email subject line</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                    
+                    <button type="button" class="btn btn-secondary" onclick="testConfiguration()">
+                        <i class="fas fa-vial"></i> Test Configuration
+                    </button>
+                    
+                    <button type="button" class="btn btn-success" onclick="runDemo()">
+                        <i class="fas fa-play"></i> Run Demo
+                    </button>
+                    
+                    <button type="button" class="btn btn-warning" onclick="runBot()">
+                        <i class="fas fa-paper-plane"></i> Send Vocabulary Now
+                    </button>
+                </div>
+            </form>
+
+            <!-- Status Section -->
+            <div class="status-section">
+                <h2><i class="fas fa-chart-bar"></i> System Status</h2>
+                <div class="status-grid" id="statusGrid">
+                    <div class="status-card">
+                        <h4>Configuration</h4>
+                        <div class="status-item">
+                            <span class="status-label">Status:</span>
+                            <span class="status-value" id="configStatus">Unknown</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Email Service:</span>
+                            <span class="status-value" id="emailService">Unknown</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-card">
+                        <h4>Database</h4>
+                        <div class="status-item">
+                            <span class="status-label">Status:</span>
+                            <span class="status-value" id="dbStatus">Unknown</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Total Words:</span>
+                            <span class="status-value" id="totalWords">Unknown</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-card">
+                        <h4>Word Fetcher</h4>
+                        <div class="status-item">
+                            <span class="status-label">API Status:</span>
+                            <span class="status-value" id="apiStatus">Unknown</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Fallback Words:</span>
+                            <span class="status-value" id="fallbackWords">Unknown</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-card">
+                        <h4>Learning Progress</h4>
+                        <div class="status-item">
+                            <span class="status-label">Total Words Sent:</span>
+                            <span class="status-value" id="totalWordsSent">Unknown</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Words Today:</span>
+                            <span class="status-value" id="wordsToday">Unknown</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Progress:</span>
+                            <span class="status-value" id="learningProgress">Unknown</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Daily Vocabulary Bot. Built for learning.</p>
+        </div>
+    </div>
+
+    <script>
+        // Load configuration on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfiguration();
+            updateStatus();
+            loadTheme(); // Load saved theme
+            
+            // Add real-time credential validation
+            setupCredentialValidation();
+        });
+
+        // Form submission
+        document.getElementById('configForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            validateAndSaveConfiguration();
+        });
+
+        // Load current configuration
+        async function loadConfiguration() {
+            try {
+                const response = await fetch('/api/config');
+                const config = await response.json();
+                
+                // Populate form fields
+                Object.keys(config).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = config[key];
+                    }
+                });
+                
+                showAlert('Configuration loaded successfully', 'success');
+            } catch (error) {
+                showAlert('Failed to load configuration', 'error');
+            }
+        }
+
+        // Save configuration
+        async function saveConfiguration() {
+            const formData = new FormData(document.getElementById('configForm'));
+            const config = {};
+            
+            formData.forEach((value, key) => {
+                config[key] = value;
+            });
+
+            try {
+                const response = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert(result.message, 'success');
+                    updateStatus();
+                } else {
+                    showAlert(result.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to save configuration', 'error');
+            }
+        }
+
+        // Validate credentials before saving
+        async function validateAndSaveConfiguration() {
+            const formData = new FormData(document.getElementById('configForm'));
+            const config = {};
+            
+            formData.forEach((value, key) => {
+                config[key] = value;
+            });
+
+            // Show loading state
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+            submitBtn.disabled = true;
+
+            try {
+                // First validate credentials
+                const validateResponse = await fetch('/api/validate-credentials', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        GMAIL_USER: config.GMAIL_USER,
+                        GMAIL_APP_PASSWORD: config.GMAIL_APP_PASSWORD
+                    })
+                });
+
+                const validateResult = await validateResponse.json();
+                
+                if (!validateResponse.ok) {
+                    // Credential validation failed
+                    showAlert(validateResult.error, 'error');
+                    
+                    // Clear fields that need to be re-entered
+                    if (validateResult.clear_fields) {
+                        validateResult.clear_fields.forEach(fieldName => {
+                            const field = document.getElementById(fieldName);
+                            if (field) {
+                                field.value = '';
+                                field.focus();
+                                // Add visual feedback
+                                field.style.borderColor = '#e74c3c';
+                                field.style.boxShadow = '0 0 0 3px rgba(231, 76, 60, 0.1)';
+                                
+                                // Remove error styling after 3 seconds
+                                setTimeout(() => {
+                                    field.style.borderColor = '';
+                                    field.style.boxShadow = '';
+                                }, 3000);
+                            }
+                        });
+                    }
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                // Credentials are valid, now save configuration
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                
+                const saveResponse = await fetch('/api/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const saveResult = await saveResponse.json();
+                
+                if (saveResponse.ok) {
+                    showAlert('Configuration saved successfully! Credentials validated.', 'success');
+                    updateStatus();
+                } else {
+                    showAlert(saveResult.error, 'error');
+                }
+                
+            } catch (error) {
+                showAlert('Failed to validate or save configuration', 'error');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Test configuration
+        async function testConfiguration() {
+            try {
+                const response = await fetch('/api/test');
+                const result = await response.json();
+                
+                if (response.ok && result.valid) {
+                    showAlert('Configuration test passed!', 'success');
+                    updateStatus();
+                } else {
+                    const errors = result.errors ? result.errors.join(', ') : 'Test failed';
+                    showAlert('Configuration test failed: ' + errors, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to test configuration', 'error');
+            }
+        }
+
+        // Run demo
+        async function runDemo() {
+            try {
+                const response = await fetch('/api/run-demo');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert(result.message, 'success');
+                } else {
+                    showAlert(result.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to run demo', 'error');
+            }
+        }
+
+        // Run bot
+        async function runBot() {
+            try {
+                const response = await fetch('/api/run-bot');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showAlert(result.message, 'success');
+                    updateStatus();
+                } else {
+                    showAlert(result.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to run bot', 'error');
+            }
+        }
+
+        // Update status
+        async function updateStatus() {
+            try {
+                const response = await fetch('/api/stats');
+                const stats = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('configStatus').textContent = 'Valid';
+                    document.getElementById('configStatus').className = 'status-value success';
+                    document.getElementById('emailService').textContent = stats.config.email_service;
+                    document.getElementById('dbStatus').textContent = 'Connected';
+                    document.getElementById('dbStatus').className = 'status-value success';
+                    document.getElementById('totalWords').textContent = stats.database.total_words || 0;
+                    document.getElementById('apiStatus').textContent = 'Available';
+                    document.getElementById('apiStatus').className = 'status-value success';
+                    document.getElementById('fallbackWords').textContent = '10+';
+                    
+                    // Update learning progress statistics
+                    if (stats.statistics) {
+                        document.getElementById('totalWordsSent').textContent = stats.statistics.total_words_sent || 0;
+                        document.getElementById('wordsToday').textContent = stats.statistics.words_sent_today || 0;
+                        document.getElementById('learningProgress').textContent = stats.statistics.learning_progress || 'N/A';
+                    } else {
+                        document.getElementById('totalWordsSent').textContent = 'N/A';
+                        document.getElementById('wordsToday').textContent = 'N/A';
+                        document.getElementById('learningProgress').textContent = 'N/A';
+                    }
+                }
+            } catch (error) {
+                document.getElementById('configStatus').textContent = 'Error';
+                document.getElementById('configStatus').className = 'status-value error';
+            }
+        }
+
+        // Show alert message
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Setup real-time credential validation
+        function setupCredentialValidation() {
+            const gmailUserField = document.getElementById('GMAIL_USER');
+            const gmailPasswordField = document.getElementById('GMAIL_APP_PASSWORD');
+            const userStatus = document.getElementById('gmailUserStatus');
+            const passwordStatus = document.getElementById('gmailPasswordStatus');
+            
+            let validationTimeout;
+            
+            // Validate credentials when both fields have values
+            function validateCredentials() {
+                const user = gmailUserField.value.trim();
+                const password = gmailPasswordField.value.trim();
+                
+                if (user && password) {
+                    // Clear previous timeout
+                    if (validationTimeout) {
+                        clearTimeout(validationTimeout);
+                    }
+                    
+                    // Set validating status
+                    userStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+                    userStatus.className = 'credential-status validating';
+                    passwordStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Validating...';
+                    passwordStatus.className = 'credential-status validating';
+                    
+                    // Add visual feedback to fields
+                    gmailUserField.classList.add('validating');
+                    gmailPasswordField.classList.add('validating');
+                    
+                    // Debounce validation (wait 1 second after user stops typing)
+                    validationTimeout = setTimeout(async () => {
+                        try {
+                            const response = await fetch('/api/validate-credentials', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    GMAIL_USER: user,
+                                    GMAIL_APP_PASSWORD: password
+                                })
+                            });
+                            
+                            const result = await response.json();
+                            
+                            if (response.ok && result.valid) {
+                                // Credentials are valid
+                                userStatus.innerHTML = '<i class="fas fa-check-circle"></i> Valid Gmail account';
+                                userStatus.className = 'credential-status valid';
+                                passwordStatus.innerHTML = '<i class="fas fa-check-circle"></i> Valid app password';
+                                passwordStatus.className = 'credential-status valid';
+                                
+                                // Add success styling
+                                gmailUserField.classList.remove('validating', 'error');
+                                gmailUserField.classList.add('success');
+                                gmailPasswordField.classList.remove('validating', 'error');
+                                gmailPasswordField.classList.add('success');
+                                
+                            } else {
+                                // Credentials are invalid
+                                userStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid credentials';
+                                userStatus.className = 'credential-status invalid';
+                                passwordStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid credentials';
+                                passwordStatus.className = 'credential-status invalid';
+                                
+                                // Add error styling
+                                gmailUserField.classList.remove('validating', 'success');
+                                gmailUserField.classList.add('error');
+                                gmailPasswordField.classList.remove('validating', 'success');
+                                gmailPasswordField.classList.add('error');
+                            }
+                            
+                        } catch (error) {
+                            // Network error
+                            userStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Network error';
+                            userStatus.className = 'credential-status invalid';
+                            passwordStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Network error';
+                            passwordStatus.className = 'credential-status invalid';
+                            
+                            // Remove styling
+                            gmailUserField.classList.remove('validating', 'success', 'error');
+                            gmailPasswordField.classList.remove('validating', 'success', 'error');
+                        }
+                    }, 1000);
+                } else {
+                    // Clear status if fields are empty
+                    userStatus.innerHTML = '';
+                    userStatus.className = 'credential-status';
+                    passwordStatus.innerHTML = '';
+                    passwordStatus.className = 'credential-status';
+                    
+                    // Remove styling
+                    gmailUserField.classList.remove('validating', 'success', 'error');
+                    gmailPasswordField.classList.remove('validating', 'success', 'error');
+                }
+            }
+            
+            // Add event listeners
+            gmailUserField.addEventListener('input', validateCredentials);
+            gmailPasswordField.addEventListener('input', validateCredentials);
+        }
+
+        // Function to toggle password visibility
+        function togglePassword() {
+            const passwordField = document.getElementById('GMAIL_APP_PASSWORD');
+            const toggleButton = passwordField.parentElement.querySelector('.password-toggle');
+            const icon = toggleButton.querySelector('i');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Theme management
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('vocabBotTheme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                updateThemeButton(true);
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('vocabBotTheme', isDark ? 'dark' : 'light');
+            updateThemeButton(isDark);
+        }
+
+        function updateThemeButton(isDark) {
+            const themeBtn = document.getElementById('themeToggle');
+            const icon = themeBtn.querySelector('i');
+            const text = themeBtn.querySelector('span') || document.createElement('span');
+            
+            if (!themeBtn.querySelector('span')) {
+                themeBtn.appendChild(text);
+            }
+            
+            if (isDark) {
+                icon.className = 'fas fa-sun';
+                text.textContent = ' Light Mode';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = ' Dark Mode';
+            }
+        }
+    </script>
+</body>
+</html>

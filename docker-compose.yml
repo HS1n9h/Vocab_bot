@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  vocab-bot:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - GMAIL_USER=${GMAIL_USER}
+      - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
+      - RECIPIENT_EMAIL=${RECIPIENT_EMAIL}
+    volumes:
+      - ./vocabulary.db:/app/vocabulary.db
+      - ./daily_vocab_bot.log:/app/daily_vocab_bot.log
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
