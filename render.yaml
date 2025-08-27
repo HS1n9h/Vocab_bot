@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: vocab-web
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn web_interface:app --timeout 120 --workers 1 --threads 4
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: RECIPIENT_EMAIL
+        sync: false
+      - key: WORDS_PER_DAY
+        value: "2"
+      - key: SCHEDULE_TIME
+        value: "09:00"
+
+  - type: worker
+    name: vocab-scheduler
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scheduler.py
+    autoDeploy: true
+    envVars:
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: RECIPIENT_EMAIL
+        sync: false
+      - key: WORDS_PER_DAY
+        value: "2"
+      - key: SCHEDULE_TIME
+        value: "09:00"
+
